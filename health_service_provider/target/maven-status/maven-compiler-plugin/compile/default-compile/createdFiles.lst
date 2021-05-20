@@ -1,0 +1,17 @@
+com\xiaohu\service\impl\OrderSettingServiceImpl.class
+com\xiaohu\service\impl\MemberServiceImpl.class
+com\xiaohu\service\impl\OrderServiceImpl.class
+com\xiaohu\dao\MemberDao.class
+com\xiaohu\service\impl\CheckItemServiveImpl.class
+com\xiaohu\service\impl\CheckGroupServiceImpl.class
+com\xiaohu\dao\OrderSettingDao.class
+com\xiaohu\dao\UserDao.class
+com\xiaohu\dao\CheckItemDao.class
+com\xiaohu\dao\CheckGroupDao.class
+com\xiaohu\service\impl\ReportServiceImpl.class
+com\xiaohu\dao\PermissionDao.class
+com\xiaohu\dao\RoleDao.class
+com\xiaohu\dao\SetmealDao.class
+com\xiaohu\service\impl\SetmealServiceImpl.class
+com\xiaohu\service\impl\UserServiceImpl.class
+com\xiaohu\dao\OrderDao.class

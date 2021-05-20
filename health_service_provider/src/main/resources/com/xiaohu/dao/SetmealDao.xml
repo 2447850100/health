@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaohu.dao.SetmealDao">
+    <resultMap id="BaseMap" type="com.xiaohu.pojo.Setmeal">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+       <result column="helpCode" jdbcType="VARCHAR" property="helpCode"/>
+        <result column="attention" property="attention" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="img" property="img" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="FLOAT"/>
+    </resultMap>
+
+    <sql id="base_list_colum">
+        id,name,remark,helpCode,attention,code,sex,img,age,price
+    </sql>
+    <select id="findAll" resultMap="BaseMap">
+        select <include refid="base_list_colum">
+    </include>
+        from t_setmeal
+    </select>
+
+    <select id="findAllByPage" resultMap="BaseMap" parameterType="String" resultType="com.xiaohu.pojo.Setmeal">
+        select <include refid="base_list_colum">
+    </include>
+        from t_setmeal
+       <if test="_parameter != null and _parameter.length()>0">
+           where code=#{_parameter,jdbcType=VARCHAR} or name=#{_parameter,jdbcType=VARCHAR} or helpCode=#{_parameter,jdbcType=VARCHAR}
+       </if>
+    </select>
+    <select id="findById" resultMap="BaseMap" parameterType="Integer">
+        select <include refid="base_list_colum">
+    </include>
+        from t_setmeal
+        where id=#{id}
+    </select>
+
+    <insert id="add" parameterType="com.xiaohu.pojo.Setmeal">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal (name,remark,helpCode,attention,code,sex,age,price,img) values (
+        #{name,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{helpCode,jdbcType=VARCHAR},#{attention,jdbcType=VARCHAR}
+        ,#{code,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR},#{price,jdbcType=FLOAT},#{img,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="com.xiaohu.pojo.Setmeal">
+        update t_setmeal set name=#{name},remark=#{remark},helpCode=#{helpCode,jdbcType=VARCHAR},attention=#{attention},code=#{code}
+        ,sex=#{sex},age=#{age,jdbcType=VARCHAR},price=#{price,jdbcType=FLOAT},img=#{img,jdbcType=VARCHAR}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <delete id="delete" parameterType="com.xiaohu.pojo.Setmeal">
+        delete from t_setmeal where id=#{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <insert id="setSetmealAndCheckItem" parameterType="Map">
+        insert into t_setmeal_checkgroup(setmeal_id,checkgroup_id) values (
+        #{setmealId},#{checkgroupId})
+    </insert>
+
+
+
+
+    <select id="findCheckgroupById" resultType="java.lang.Integer">
+        select checkgroup_id from  t_setmeal_checkgroup where setmeal_id=#{id}
+    </select>
+
+
+    <delete id="deleteByCheckgroupId" parameterType="int">
+        delete from t_setmeal_checkgroup where setmeal_id=#{setmealId,jdbcType=INTEGER}
+    </delete>
+
+
+    <select id="findSetmealCount" resultType="map" >
+        select s.name, count(o.id) value from t_order o,t_setmeal s where o.setmeal_id = s.id group by s.name
+
+    </select>
+</mapper>

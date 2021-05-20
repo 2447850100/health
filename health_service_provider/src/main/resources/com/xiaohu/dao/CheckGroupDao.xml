@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaohu.dao.CheckGroupDao">
+    <resultMap id="BaseMap" type="com.xiaohu.pojo.CheckGroup">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+       <result column="helpCode" jdbcType="VARCHAR" property="helpCode"/>
+        <result column="attention" property="attention" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="base_list_colum">
+        id,name,remark,helpCode,attention,code,sex
+    </sql>
+    <select id="findAll" resultMap="BaseMap">
+        select <include refid="base_list_colum">
+    </include>
+        from t_checkgroup
+    </select>
+
+    <select id="findAllByPage" resultMap="BaseMap" parameterType="String" resultType="com.xiaohu.pojo.CheckItem">
+        select <include refid="base_list_colum">
+    </include>
+        from t_checkgroup
+       <if test="_parameter != null and _parameter.length()>0">
+           where code=#{_parameter,jdbcType=VARCHAR} or name=#{_parameter,jdbcType=VARCHAR} or helpCode=#{_parameter,jdbcType=VARCHAR}
+       </if>
+    </select>
+    <select id="findById" resultMap="BaseMap" parameterType="Integer">
+        select <include refid="base_list_colum">
+    </include>
+        from t_checkgroup
+        where id=#{id}
+    </select>
+
+    <insert id="add" parameterType="com.xiaohu.pojo.CheckGroup">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_checkgroup (name,remark,helpCode,attention,code,sex) values (
+        #{name,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{helpCode,jdbcType=VARCHAR},#{attention,jdbcType=VARCHAR}
+        ,#{code,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="com.xiaohu.pojo.CheckGroup">
+        update t_checkgroup set name=#{name},remark=#{remark},helpCode=#{helpCode,jdbcType=VARCHAR},attention=#{attention},code=#{code}
+        ,sex=#{sex}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <delete id="delete" parameterType="com.xiaohu.pojo.CheckGroup">
+        delete from t_checkgroup where id=#{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <insert id="setCheckGroupAndCheckItem" parameterType="Map">
+        insert into t_checkgroup_checkitem (checkgroup_id,checkitem_id) values (
+        #{checkGroupId},#{checkItemId})
+    </insert>
+
+
+
+
+    <select id="findCheckItemById" resultType="java.lang.Integer">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </select>
+
+
+    <delete id="deleteByCheckgroupId" parameterType="int">
+        delete from t_checkgroup_checkitem where checkgroup_id=#{checkgroupId,jdbcType=INTEGER}
+    </delete>
+</mapper>

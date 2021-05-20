@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaohu.dao.CheckItemDao">
+    <resultMap id="BaseMap" type="com.xiaohu.pojo.CheckItem">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="VARCHAR"/>
+        <result column="attention" property="attention" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="FLOAT"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="base_list_colum">
+        id,name,remark,type,age,attention,code,price,sex
+    </sql>
+    <select id="findAll" resultMap="BaseMap">
+        select <include refid="base_list_colum">
+    </include>
+        from t_checkitem
+    </select>
+
+    <select id="findAllByPage" resultMap="BaseMap" parameterType="String" resultType="com.xiaohu.pojo.CheckItem">
+        select <include refid="base_list_colum">
+    </include>
+        from t_checkitem
+       <if test="_parameter != null and _parameter.length()>0">
+           where code=#{_parameter,jdbcType=VARCHAR} or name=#{_parameter,jdbcType=VARCHAR}
+       </if>
+    </select>
+    <select id="findById" resultMap="BaseMap" parameterType="Integer">
+        select <include refid="base_list_colum">
+    </include>
+        from t_checkitem
+        where id=#{id}
+    </select>
+    <insert id="add" parameterType="com.xiaohu.pojo.CheckItem">
+        insert into t_checkitem (id,name,remark,type,age,attention,code,price,sex) values (#{id,jdbcType=INTEGER}
+        ,#{name,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR},#{attention,jdbcType=VARCHAR}
+        ,#{code,jdbcType=VARCHAR},#{price,jdbcType=FLOAT},#{sex,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="com.xiaohu.pojo.CheckItem">
+        update t_checkitem set name=#{name},remark=#{remark},type=#{type},age=#{age},attention=#{attention},code=#{code}
+        ,price=#{price},sex=#{sex}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <delete id="delete" parameterType="com.xiaohu.pojo.CheckItem">
+        delete from t_checkitem where id=#{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

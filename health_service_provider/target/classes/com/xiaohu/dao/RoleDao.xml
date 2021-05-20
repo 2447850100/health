@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaohu.dao.RoleDao">
+   <select id="findUserById" resultType="com.xiaohu.pojo.Role" parameterType="Integer">
+       select t_role.*
+       from  t_user_role,t_role
+       where
+       t_role.id=t_user_role.role_id
+       and t_user_role.user_id=#{userId,jdbcType=INTEGER}
+   </select>
+</mapper>
