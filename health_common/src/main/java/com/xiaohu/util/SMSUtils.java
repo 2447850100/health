@@ -13,8 +13,8 @@ import com.aliyuncs.profile.IClientProfile;
  * 短信发送工具类
  */
 public class SMSUtils {
-	public static final String VALIDATE_CODE = "SMS_210780460";//发送短信验证码
-	public static final String ORDER_NOTICE = "SMS_210770620";//体检预约成功通知
+	public static final String VALIDATE_CODE = "0";//发送短信验证码
+	public static final String ORDER_NOTICE = "0";//体检预约成功通知
 	/**
 	 * 发送短信
 	 * @param phoneNumbers
